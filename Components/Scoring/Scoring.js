@@ -2,13 +2,15 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { Image, ScrollView } from 'react-native';
-import { Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Platform } from 'react-native';
 import { AnimatedRollingNumber } from "react-native-animated-rolling-numbers";
 import { Easing } from "react-native-reanimated";
 import { useEffect } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
+import { TouchableWithoutFeedback} from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 export default function Scoring(props){
@@ -86,7 +88,9 @@ export default function Scoring(props){
          const [majorF, setMajorF] = React.useState(0);
 
 
-
+        const dismissKeyboard = () => {
+        Keyboard.dismiss();
+        };
     function updateScore(){
 
       //  let pointsVal = netZone * 5;
@@ -124,10 +128,19 @@ export default function Scoring(props){
     
     return (
         <>
-            
+            <View style={
+                {
+                    height: "100%",
+                    backgroundColor: "transparent"
+                }
+            }
+            >
             <View style={styles.container}>
-            
-                <Pressable style={styles.logo} onPress={()=>{
+
+                <Image source={require('./bule1.png')} style={styles.imageBule}></Image>
+               
+                
+                <TouchableOpacity style={styles.logo} onPress={()=>{
                         console.log("soemhting")
                         navigation.navigate('welcome')
                     }}>
@@ -135,7 +148,7 @@ export default function Scoring(props){
                      <Text style={styles.title}>SCORING</Text>
                      <Image source={require('./logoSH.png')} style ={styles.img}></Image>
                      
-                </Pressable>
+                </TouchableOpacity>
                 <View style={styles.scores}>
                         <View style={styles.ScorePoints}>
                             <View style={styles.points}>
@@ -165,10 +178,18 @@ export default function Scoring(props){
                         </View>
                 </View>
             </View>
-            
-            <ScrollView style={styles.ScrollViewstyle}>
+            <View onMoveShouldSetResponderCapture={() => false} onStartShouldSetResponderCapture={() => false}
+                style={{
+                    flex: 1
+                }}>
+            <ScrollView style={styles.ScrollViewstyle} keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
                     {Match &&
-                    <View>
+                    <>
+                    
+                    <View style={
+                        {
+                        }
+                    }>
                     <Text style={styles.headerTextOne}>AUTONOMOUS</Text>
 
                     {
@@ -185,27 +206,25 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>net zone</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity delayPressIn={0} style={styles.minusButton} onPress={()=>{
                                 
-                                updateScore();
                                 if(netZone >= 1){
                                     setNetZone(netZone - 1);
                                     setNetZoneD(netZoneD - 1);
                                 }
-                                updateScore();
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                               <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{netZone}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
-                                updateScore();
+                            <TouchableOpacity delayPressIn={0} style={styles.plusButton} onPress={()=>{
+                             
                                 setNetZone(netZone + 1);
                                 setNetZoneD(netZoneD + 1);
                                 console.log(netZone);
-                                updateScore();
+                             
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -217,23 +236,22 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>low basket</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(lowBasket >= 1){
                                     setLowBasket(lowBasket - 1);
                                     setLowBasketD(lowBasketD - 1);
                                 }
-                                updateScore();
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{lowBasket}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setLowBasket(lowBasket + 1);
                                 setLowBasketD(lowBasketD + 1);
-                                updateScore();
+                             
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -245,23 +263,22 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>high basket</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(highBasket >= 1){
                                     setHighBasket(highBasket - 1);
                                     setHighBasketD(highBasketD - 1);
                                 }
-                                updateScore();
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{highBasket}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setHighBasket(highBasket + 1);
                                 setHighBasketD(highBasketD + 1);
-                                updateScore();
+                             
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -283,23 +300,25 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>low chamber</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(lowChamber >= 1){
+                                    console.log("something");
                                     setLowChamber(lowChamber - 1);
                                     setLowChamberD(lowChamberD - 1);
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{lowChamber}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setLowChamber(lowChamber + 1);
                                 setLowChamberD(lowChamberD + 1);
-                                updateScore();
+                                
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -311,55 +330,58 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>high chamber</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(highChamber >= 1){
                                     setHighChamber(highChamber - 1);
                                     setHighChamberD(highChamberD - 1);
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{highChamber}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setHighChamber(highChamber + 1);
                                 setHighChamberD(highChamberD + 1);
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
-
+                            
                     {
                         /// robot park 1
                     }
                     <View style={styles.SampleContainer}>
                         <Text style={styles.headerText}> ROBOT 1 PARK </Text>
                         <View style={styles.buttonWrap}>
-                            <Pressable style={ noneAuto1 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            
+
+                            <TouchableOpacity style={ noneAuto1 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 console.log(noneAuto1);
                                 setNoneAuto1(1);
                                 setAscentAuto1(0);
                                 setObserverAuto1(0);
                             }}>
-                                    <Text style={styles.buttonLeftSideText}>none</Text>
-                            </Pressable>
-                            <Pressable style={ascentAuto1 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                                   <Text style={styles.buttonLeftSideText}>none</Text>
+                           
+                            </TouchableOpacity>
+                            <TouchableOpacity style={ascentAuto1 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 setNoneAuto1(0);
                                 setAscentAuto1(1);
                                 setObserverAuto1(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>ascent level 1</Text>
-                            </Pressable>
-                            <Pressable style={observerAuto1 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={observerAuto1 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 setNoneAuto1(0);
                                 setAscentAuto1(0);
                                 setObserverAuto1(1);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>observation</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                        
                     </View>
@@ -370,30 +392,31 @@ export default function Scoring(props){
                     <View style={styles.SampleContainer}>
                         <Text style={styles.headerText}> ROBOT 2 PARK </Text>
                         <View style={styles.buttonWrap}>
-                            <Pressable style={ noneAuto2 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={ noneAuto2 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 console.log(noneAuto1);
                                 setNoneAuto2(1);
                                 setAscentAuto2(0);
                                 setObserverAuto2(0);
                             }}>
                                     <Text style={styles.buttonLeftSideText}>none</Text>
-                            </Pressable>
-                            <Pressable style={ascentAuto2 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={ascentAuto2 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 setNoneAuto2(0);
                                 setAscentAuto2(1);
                                 setObserverAuto2(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>ascent level 1</Text>
-                            </Pressable>
-                            <Pressable style={observerAuto2 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={observerAuto2 ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 setNoneAuto2(0);
                                 setAscentAuto2(0);
                                 setObserverAuto2(1);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>observation</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                        
+                    </View>
                     </View>
 
                     {
@@ -420,22 +443,22 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>net zone</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity delayPressIn={0} style={styles.minusButton} onPress={()=>{
                                 if(netZoneD >= 1){
                                     setNetZoneD(netZoneD - 1);
                                   
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{netZoneD}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity delayPressIn={0} style={styles.plusButton} onPress={()=>{
                                 setNetZoneD(netZoneD + 1);
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -447,23 +470,23 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>low basket</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(lowBasketD >= 1){
                                     setLowBasketD(lowBasketD - 1);
                                     
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{lowBasketD}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                             
                                 setLowBasketD(lowBasketD + 1);
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -475,22 +498,22 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>high basket</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(highBasketD >= 1){
                                     setHighBasketD(highBasketD - 1);
                                     
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{highBasketD}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setHighBasketD(highBasketD + 1);
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -512,22 +535,22 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>low chamber</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity delayPressIn={0} style={styles.minusButton} onPress={()=>{
                                 if(lowChamberD >= 1){
                                     setLowChamberD(lowChamberD - 1);
                                     
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{lowChamberD}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity delayPressIn={0} style={styles.plusButton} onPress={()=>{
                                 setLowChamberD(lowChamberD + 1);
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -539,23 +562,23 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>high chamber</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(highChamberD >= 1){
                                     setHighChamberD(highChamberD - 1);
                                     
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{highChamberD}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setHighChamberD(highChamberD + 1);
 
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
@@ -566,7 +589,7 @@ export default function Scoring(props){
                     <View style={styles.SampleContainer}>
                         <Text style={styles.headerText}> ROBOT 1 LOCATION </Text>
                         <View style={styles.buttonWrap}>
-                            <Pressable style={ noneAuto1D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={ noneAuto1D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                              
                                 setNoneAuto1D(1);
                                 setAscent1D(0);
@@ -575,8 +598,8 @@ export default function Scoring(props){
                                 setoz1D(0);
                             }}>
                                     <Text style={styles.buttonLeftSideText}>no</Text>
-                            </Pressable>
-                            <Pressable style={ascent1D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={ascent1D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 setNoneAuto1D(0);
                                 setAscent1D(1);
                                 setAscent2D(0);
@@ -584,8 +607,8 @@ export default function Scoring(props){
                                 setoz1D(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>level 1</Text>
-                            </Pressable>
-                            <Pressable style={ascent2D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={ascent2D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                  setNoneAuto1D(0);
                                  setAscent1D(0);
                                  setAscent2D(1);
@@ -593,9 +616,9 @@ export default function Scoring(props){
                                  setoz1D(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>level 2</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
-                            <Pressable style={ascent3D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={ascent3D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                  setNoneAuto1D(0);
                                  setAscent1D(0);
                                  setAscent2D(0);
@@ -603,9 +626,9 @@ export default function Scoring(props){
                                  setoz1D(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>level 3</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
-                            <Pressable style={oz1D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={oz1D ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                  setNoneAuto1D(0);
                                  setAscent1D(0);
                                  setAscent2D(0);
@@ -613,7 +636,7 @@ export default function Scoring(props){
                                  setoz1D(1);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>OZ</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                             
                             
 
@@ -628,7 +651,7 @@ export default function Scoring(props){
                     <View style={styles.SampleContainer}>
                         <Text style={styles.headerText}> ROBOT 2 LOCATION </Text>
                         <View style={styles.buttonWrap}>
-                            <Pressable style={ noneAuto1DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={ noneAuto1DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                              
                                 setNoneAuto1DB(1);
                                 setAscent1DB(0);
@@ -637,8 +660,8 @@ export default function Scoring(props){
                                 setoz1DB(0);
                             }}>
                                     <Text style={styles.buttonLeftSideText}>no</Text>
-                            </Pressable>
-                            <Pressable style={ascent1DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={ascent1DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                 setNoneAuto1DB(0);
                                 setAscent1DB(1);
                                 setAscent2DB(0);
@@ -646,8 +669,8 @@ export default function Scoring(props){
                                 setoz1DB(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>level 1</Text>
-                            </Pressable>
-                            <Pressable style={ascent2DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={ascent2DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                  setNoneAuto1DB(0);
                                  setAscent1DB(0);
                                  setAscent2DB(1);
@@ -655,9 +678,9 @@ export default function Scoring(props){
                                  setoz1DB(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>level 2</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
-                            <Pressable style={ascent3DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={ascent3DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                  setNoneAuto1DB(0);
                                  setAscent1DB(0);
                                  setAscent2DB(0);
@@ -665,9 +688,9 @@ export default function Scoring(props){
                                  setoz1DB(0);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>level 3</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
-                            <Pressable style={oz1DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
+                            <TouchableOpacity style={oz1DB ? styles.buttonLeftSideClicked : styles.buttonLeftSide} onPress={()=>{
                                  setNoneAuto1DB(0);
                                  setAscent1DB(0);
                                  setAscent2DB(0);
@@ -675,7 +698,7 @@ export default function Scoring(props){
                                  setoz1DB(1);
                             }}>
                                 <Text style={styles.buttonLeftSideText}>OZ</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                             
                             
 
@@ -696,24 +719,24 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>minor fouls</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 
-                                updateScore();
+                                 
                                 if(minorF >= 1){
                                     setMinorF(minorF - 1);
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{minorF}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
-                                updateScore();
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
+                                 
                                 setMinorF(minorF + 1);
-                                updateScore();
+                                 
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
 
@@ -725,21 +748,21 @@ export default function Scoring(props){
                             <View style={styles.buttonLeftSide}>
                                 <Text style={styles.buttonLeftSideText}>major fouls</Text>
                             </View>
-                            <Pressable style={styles.minusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.minusButton} onPress={()=>{
                                 if(majorF >= 1){
                                     setMajorF(majorF - 1);
                                 }
-                                updateScore();
+                                 
                             }}>
-                                <Text style={styles.buttonMinusText}>-</Text>
-                            </Pressable>
+                                <Image style={styles.minusButton} source={require('./minus.png')} />
+                            </TouchableOpacity>
                             <Text style={styles.cntText}>{majorF}</Text>
-                            <Pressable style={styles.plusButton} onPress={()=>{
+                            <TouchableOpacity style={styles.plusButton} onPress={()=>{
                                 setMajorF(majorF + 1);
-                                updateScore();
+                                
                             }}>
                                 <Text style={styles.buttonPlusText}>+</Text>
-                            </Pressable>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
@@ -748,7 +771,7 @@ export default function Scoring(props){
                         ///Settings
                     }
 
-                </View>
+                </>
                 }
                 {!Match&&
                     <View style={styles.SampleContainer}>
@@ -771,12 +794,13 @@ export default function Scoring(props){
                                 <Text style={styles.headerText}>{penalty}</Text>
                          </View>
                     </View>
-                }
-                                    <View style={styles.SampleContainer}>
+                    }
+
+                    <View style={styles.SampleContainer}>
                         <Text style={styles.headerText}> SETTINGS </Text>
                         <View style={styles.buttonWrap}>
                     
-                            <Pressable style={styles.buttonLeftSide} onPress={
+                            <TouchableOpacity style={styles.buttonLeftSide} onPress={
                                 ()=>{
                                     
                                     setPenalty(0);
@@ -815,31 +839,56 @@ export default function Scoring(props){
                                 }
                             }>
                                 <Text style={styles.buttonLeftSideText}>reset score</Text>
-                            </Pressable>
-                            <Pressable style={styles.buttonLeftSide} onPress={()=>{
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonLeftSide} onPress={()=>{
                                 navigation.navigate('match');   
                             }}>
                                 <Text style={styles.buttonLeftSideText}>start match</Text>
-                            </Pressable>
-                            <Pressable style={styles.buttonLeftSide} onPress={
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonLeftSide} onPress={
                                 ()=>{
                                     setMatch(!Match);       
                                 }
                             }>
                                 <Text style={styles.buttonLeftSideText}>see stats</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                             
                             
 
                         </View>
                        
                     </View>
+                           
             </ScrollView>
-            
+            </View>
+
+          </View>
         </>
     )
 }
 const styles = StyleSheet.create({
+    imageBule2:{
+        zIndex: 0,
+        position : "absolute",
+        
+        marginTop: 0,
+        width: 220,
+        
+       resizeMode: 'contain',
+        height: 170,
+        left: 230,
+        top: "88.5%",
+    },
+    imageBule:{
+         position : "absolute",
+        marginTop: 0,
+        width: 200,
+        right: 1,
+        top: 0,
+       resizeMode: 'contain',
+        height: 150,
+        marginRight: 260
+    },
     digits: {
         
         paddingTop: 19,
@@ -849,9 +898,12 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
     },
     ScrollViewstyle:{
+        flex: 1,
         backgroundColor: "#141414",
     },
     buttonLeftSideClicked:{
+        position: "relative",
+        zIndex: 10,
         borderRadius: 10,
         width: 110,
         height: 40,
@@ -887,6 +939,8 @@ const styles = StyleSheet.create({
         marginTop: -2,
     },
     plusButton:{
+        
+        zIndex: 0,
         width: 40,
         height: 40, 
         borderRadius: 10,
@@ -898,15 +952,30 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontSize: 15,
+        fontFamily: "BebasNeue-Regular",
         marginTop: 7
     },
     buttonMinusText:{
+
+        position: "relative",
+        
         textAlign: 'center',
         color: 'white',
+        height: 30,
+
+        paddingTop:0,
+        marginTop: 0,
+        width: 10,
         fontSize: 40,
-        marginTop: -10,
+        top: 0,
+        bottom: 0,
+        left: 12,
+        backgroundColor: "black",
+        zIndex: 0,
     },
     buttonLeftSide:{
+        position: "relative",
+        zIndex: 10,
         borderWidth: 2,
         borderColor: "#7DDB3B",
         borderRadius: 10,
@@ -919,12 +988,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#404040",
     },
     minusButton:{
-        width: 40,
-        height: 40, 
-        borderRadius: 10,
-        backgroundColor: "#7DDB3B",
+        //borderWidth: 1,
+        zIndex: 0,
         
-        borderRadius: 50,
     },
     buttonGrowing:{
         marginTop: 10,
@@ -938,16 +1004,18 @@ const styles = StyleSheet.create({
         fontSize: 30,
     },
     SampleContainer:{
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: "white",
         display:"flex",
         marginLeft: 10,
+        height: "auto",
         marginRight: 10,
         width: "auto",
+        fontFamily: "PTSans-Regular",
         borderRadius: 20,
         alignContent: "center",
         alignItems: "center",
-        marginBottom: 30
+        marginBottom: 25
     },
     scores:{
         marginTop: 20,
